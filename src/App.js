@@ -72,7 +72,7 @@ const App = (props) => {
 
     return (
       <div>
-        <h1>Poruke</h1>
+        <h1>Poruke - Novo</h1>
         <div>
             <button onClick={ () => postaviIspis(!ispisSve) }>
                 Prikaži {ispisSve ? "samo važne" : "sve"}
