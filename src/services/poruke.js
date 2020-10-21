@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-//const osnovniUrl = '/api/poruke';
-const osnovniUrl = 'http://localhost:3001/api/poruke'; // relativna putanja!!
+//const osnovniUrl = '/api/poruke'; // relativna putanja!!
+const osnovniUrl = 'https://pmfst-node-poruke.herokuapp.com/api/poruke'; // dva na jednu
+//const osnovniUrl = 'http://localhost:3001/api/poruke'; 
 
 const dohvatiSve = () => {
     return axios.get(osnovniUrl);
