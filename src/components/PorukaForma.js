@@ -18,11 +18,13 @@ const PorukaForma = (props) => {
     }
 
     return (
-        <form onSubmit={novaPoruka}>
-            <input value={unosPoruke} 
+        <div className="formaDiv">
+            <form onSubmit={novaPoruka}>
+                <input value={unosPoruke} 
                     onChange={promjenaUnosa} />
-            <button type="submit">Spremi</button>   
-        </form>
-    )
+                <button type="submit">Spremi</button>   
+            </form>
+        </div>   
+    );
 }
 export default PorukaForma

@@ -49,16 +49,16 @@ describe('Komponenta <Promjenjiv />', () => {
     });
 
     test('prikazani sadrzaj se moze sakriti', () => {
-        const button = komponenta.container.querySelector('button')
-        fireEvent.click(button)
+        const button = komponenta.container.querySelector('button');
+        fireEvent.click(button);
     
         // drugi element pretrage (jer qSelector dohvaća prvi)
         const odustaniButton = komponenta.container.querySelector(
           'button:nth-child(2)'
-        )
-        fireEvent.click(odustaniButton)
+        );
+        fireEvent.click(odustaniButton);
     
-        const div = komponenta.container.querySelector('.promjenjiviSadrzaj')
-        expect(div).toHaveStyle('display: none')
+        const div = komponenta.container.querySelector('.promjenjiviSadrzaj');
+        expect(div).toHaveStyle('display: none');
       });
 }); 
