@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 
 const Promjenjiv = (props) => {
     const [vidljivo, postaviVidljivo] = useState(false);
@@ -23,5 +24,7 @@ const Promjenjiv = (props) => {
         </div>
     );
 }
+
+/* Promjenjiv.PropTypes = { natpis: PropTypes.string.isRequired } */
 
 export default Promjenjiv;

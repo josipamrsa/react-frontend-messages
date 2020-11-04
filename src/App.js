@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Poruka from './components/Poruka';
 import LoginForma from './components/LoginForma';
+import PorukaForma from './components/PorukaForma';
 import Promjenjiv from './components/Promjenjiv';
 import porukeServer from './services/poruke';
 import loginServer from './services/login';
 
+
 const App = (props) => {
     const [poruke, postaviPoruke] = useState([]);
-    const [unosPoruke, postaviUnos] = useState("Unesi poruku: ");
     const [ispisSve, postaviIspis] = useState(true);
     const [username, postaviUsername] = useState('');
     const [pass, postaviPass] = useState('');
     const [korisnik, postaviKorisnika] = useState(null);
-    /* const [loginVidljiv, postaviLoginVidljiv] = useState(false); */
 
     // učitavanje podataka sa servera
     useEffect(() => {
@@ -36,30 +36,17 @@ const App = (props) => {
 
     // ako ispisSve ima true vrijednost, ispisiva sve
     // ako ima false, filtrira poruke po vaznosti
-    const porukeZaIspis = ispisSve ? 
-        poruke : poruke.filter(p => p.vazno === true);
+    const porukeZaIspis = ispisSve ? poruke : poruke.filter(p => p.vazno === true);
 
     // prima event kad je onsubmit, onchange, itd.
-    const novaPoruka = (e) => {
-        e.preventDefault();
-        const noviObjekt = {            
-            sadrzaj: unosPoruke,
-            datum: new Date().toISOString(),
-            vazno: Math.random() > 0.5 // vraća true/false 50/50 puta
-        }
-
-        porukeServer.stvori(noviObjekt).then((response) => 
-            {
-                console.log(response);
-                postaviPoruke(poruke.concat(response.data));
-                postaviUnos('');
-            });
+    const spremiPoruku = (noviObjekt) => {
+        porukeServer
+        .stvori(noviObjekt)
+        .then((response) => {
+            console.log(response);
+            postaviPoruke(poruke.concat(response.data));              
+        });
     };
-
-    // controlled component
-    const promjenaUnosa = (e) => {
-        postaviUnos(e.target.value);
-    }
 
     // delegat - event handler za promjenu poruke
     const promjenaVaznostiPoruke = (id) => {
@@ -70,12 +57,14 @@ const App = (props) => {
             vazno: !poruka.vazno
         };
 
-        porukeServer.osvjezi(id, novaPoruka).then((response) => {
-                console.log(response);      
-                postaviPoruke(
-                    poruke.map(p => p.id !== id ? p : response.data)
-                );     
-            });
+        porukeServer
+        .osvjezi(id, novaPoruka)
+        .then((response) => {
+            console.log(response);      
+            postaviPoruke(
+                poruke.map(p => p.id !== id ? p : response.data)
+            );     
+        });
     }
 
     const brisanjePoruke = (id) => {
@@ -88,7 +77,7 @@ const App = (props) => {
 
     const userLogin = async (e) => {
         e.preventDefault();
-        //console.log("Prijava: ", username, "-", pass);
+
         try {
             const odgovor = await loginServer.prijava({ username, pass });
             // poslije odgovora
@@ -120,11 +109,9 @@ const App = (props) => {
     };
 
     const porukaForma = () => (
-        /* Može se dodati ista logika kao i kod login forme */
-        <form onSubmit={novaPoruka}>
-            <input value={unosPoruke} onChange={promjenaUnosa} />
-            <button type="submit">Spremi</button>   
-        </form>
+        <Promjenjiv natpis="Nova poruka">
+            <PorukaForma spremiPoruku={spremiPoruku} />
+        </Promjenjiv>
     );
 
     return (
